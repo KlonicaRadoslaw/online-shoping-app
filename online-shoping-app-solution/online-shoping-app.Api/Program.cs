@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using online_shoping_app.Api.Data;
+using online_shoping_app.Api.Interfaces;
+using online_shoping_app.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
