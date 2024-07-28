@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "online-shoping-app.web", "o
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "online-shoping-app.Api", "online-shoping-app.Api\online-shoping-app.Api.csproj", "{39A20100-40CA-4840-9507-76BF1EEA85A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "online-shoping.Models", "online-shoping.Models\online-shoping.Models.csproj", "{179C74A1-5604-4131-9E7E-98ADCF1E7500}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "online-shoping.Models", "online-shoping.Models\online-shoping.Models.csproj", "{179C74A1-5604-4131-9E7E-98ADCF1E7500}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
