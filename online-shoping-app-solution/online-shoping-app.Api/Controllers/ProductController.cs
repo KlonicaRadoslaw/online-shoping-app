@@ -38,6 +38,31 @@ namespace online_shoping_app.Api.Controllers
             {
                 return StatusCode(500, "Error retrieving data from the database");
             }
-        } 
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ProductDto>> GetItem([FromRoute] int id)
+        {
+            try
+            {
+                var product = await _productRepository.GetProductById(id);
+
+                if (product == null)
+                    return NotFound();
+                else
+                {
+                    var productCategory = await _productRepository.GetCategoryById(product.CategoryId);
+
+                    var productDto = product.ConvertToDto(productCategory);
+
+                    return Ok(productDto);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error retrieving data from the database");
+            }
+        }
     }
 }

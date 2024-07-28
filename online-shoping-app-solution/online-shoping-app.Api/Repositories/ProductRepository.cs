@@ -20,9 +20,10 @@ namespace online_shoping_app.Api.Repositories
             return categories;
         }
 
-        public Task<ProductCategory> GetCategoryById(int id)
+        public async Task<ProductCategory> GetCategoryById(int id)
         {
-            throw new NotImplementedException();
+            var category = await _context.ProductCategories.SingleOrDefaultAsync(c => c.Id == id);
+            return category;
         }
 
         public async Task<IEnumerable<Product>> GetItems()
@@ -32,9 +33,10 @@ namespace online_shoping_app.Api.Repositories
             return products;
         }
 
-        public Task<Product> GetProductById(int id)
+        public async Task<Product> GetProductById(int id)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(id);
+            return product;
         }
     }
 }
