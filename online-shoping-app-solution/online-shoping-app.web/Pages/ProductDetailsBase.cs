@@ -10,6 +10,8 @@ namespace online_shoping_app.web.Pages
         public int Id { get; set; }
         [Inject]
         public IProductService ProductService { get; set; }
+        [Inject]
+        public IShoppingCartService ShoppingCartService { get; set; }
         public ProductDto Product { get; set; }
         public string ErrorMessage { get; set; }
 
@@ -22,6 +24,19 @@ namespace online_shoping_app.web.Pages
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+            }
+        }
+
+        protected async Task AddToCart_Click(CartItemToAddDto cartItemToAddDto)
+        {
+            try
+            {
+                var carItemDto = await ShoppingCartService.AddItem(cartItemToAddDto);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
