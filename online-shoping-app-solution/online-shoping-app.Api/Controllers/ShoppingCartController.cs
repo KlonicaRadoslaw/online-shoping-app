@@ -67,5 +67,30 @@ namespace online_shoping_app.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<CartItemDto>> CreateItem([FromBody] CartItemToAddDto cartItemToAddDto)
+        {
+            try
+            {
+                var newCartItem = await _shoppingCartRepository.AddItem(cartItemToAddDto);
+
+                if (newCartItem == null)
+                    return BadRequest();
+
+                var product = await _productRepository.GetProductById(newCartItem.ProductId);
+
+                if (product == null)
+                    throw new Exception($"Something went wrong when attempting to retrieve product (productId:({cartItemToAddDto.ProductId}))");
+
+                var newCartItemDto = newCartItem.ConvertToDto(product);
+
+                return CreatedAtAction(nameof(GetItem), new {id = newCartItemDto.Id }, newCartItemDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
