@@ -31,11 +31,42 @@ namespace online_shoping_app.web.Pages
             RemoveCartItem(id);
         }
 
+        protected async Task UpdateQtyCartItem_Click(int id, int qty)
+        {
+            try
+            {
+                if (qty > 0)
+                {
+                    var updateItemDto = new CartItemQtyUpdateDto
+                    {
+                        CartItemId = id,
+                        Qty = qty
+                    };
+
+                    var returnedUpdateItemDto = await ShoppingCartService.UpdateQty(updateItemDto);
+                }
+                else
+                {
+                    var item = ShoppingCartItems.FirstOrDefault(i => i.Id == id);
+
+                    if (item != null)
+                    {
+                        item.Qty = 1;
+                        item.TotalPrice = item.Price;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        }
+
         private CartItemDto GetCartItem(int id)
         {
             return ShoppingCartItems.FirstOrDefault(i => i.Id == id);
         }
-        private void RemoveCartItem(int id) 
+        private void RemoveCartItem(int id)
         {
             var cartItemDto = GetCartItem(id);
 
