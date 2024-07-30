@@ -116,5 +116,26 @@ namespace online_shoping_app.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
+        {
+            try
+            {
+                var cartItem = await _shoppingCartRepository.UpdateQty(id, cartItemQtyUpdateDto);
+                if(cartItem == null)
+                    return NotFound();
+
+                var product = await _productRepository.GetProductById(cartItem.ProductId);
+
+                var cartItemDto = cartItem.ConvertToDto(product);
+
+                return Ok(cartItemDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
