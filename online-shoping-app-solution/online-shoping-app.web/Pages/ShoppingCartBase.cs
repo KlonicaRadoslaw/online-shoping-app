@@ -11,12 +11,16 @@ namespace online_shoping_app.web.Pages
         public List<CartItemDto> ShoppingCartItems { get; set; }
 
         public string ErrorMessage { get; set; }
+        protected string TotalPrice { get; set; }
+        protected int TotalQuantity { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             try
             {
                 ShoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
+
+                CalculateCartSummaryTotals();
             }
             catch (Exception ex)
             {
@@ -29,6 +33,8 @@ namespace online_shoping_app.web.Pages
             var cartItemDto = await ShoppingCartService.DeleteItem(id);
 
             RemoveCartItem(id);
+
+            CalculateCartSummaryTotals();
         }
 
         protected async Task UpdateQtyCartItem_Click(int id, int qty)
@@ -44,6 +50,9 @@ namespace online_shoping_app.web.Pages
                     };
 
                     var returnedUpdateItemDto = await ShoppingCartService.UpdateQty(updateItemDto);
+
+                    UpdateItemTotalPrice(returnedUpdateItemDto);
+                    CalculateCartSummaryTotals();
                 }
                 else
                 {
@@ -60,6 +69,32 @@ namespace online_shoping_app.web.Pages
             {
                 ErrorMessage = ex.Message;
             }
+        }
+
+        private void UpdateItemTotalPrice(CartItemDto cartItemDto)
+        {
+            var item = GetCartItem(cartItemDto.Id);
+
+            if (item != null)
+            {
+                item.TotalPrice = cartItemDto.Price * cartItemDto.Qty;
+            }
+        }
+
+        private void CalculateCartSummaryTotals()
+        {
+            SetTotalPrice();
+            SetTotalQty();
+        }
+
+        private void SetTotalPrice()
+        {
+            TotalPrice = ShoppingCartItems.Sum(p => p.TotalPrice).ToString("C");
+        }
+
+        private void SetTotalQty() 
+        {
+            TotalQuantity = ShoppingCartItems.Sum(p => p.Qty);
         }
 
         private CartItemDto GetCartItem(int id)
