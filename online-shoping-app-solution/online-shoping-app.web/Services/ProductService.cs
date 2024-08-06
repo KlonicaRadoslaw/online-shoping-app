@@ -67,5 +67,32 @@ namespace online_shoping_app.web.Services
                 throw;
             }
         }
+
+        public async Task<IEnumerable<ProductCategoryDto>> GetProductCategories()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/Product/GetProductCategories");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                        return Enumerable.Empty<ProductCategoryDto>();
+
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ProductCategoryDto>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status code = {response.StatusCode} Message - {message}");
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

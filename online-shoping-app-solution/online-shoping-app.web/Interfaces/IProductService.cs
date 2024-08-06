@@ -6,5 +6,6 @@ namespace online_shoping_app.web.Interfaces
     {
         Task<IEnumerable<ProductDto>> GetItems();
         Task<ProductDto> GetItemById(int id);
+        Task<IEnumerable<ProductCategoryDto>> GetProductCategories();
     }
 }
