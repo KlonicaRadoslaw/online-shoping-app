@@ -81,5 +81,23 @@ namespace online_shoping_app.Api.Controllers
                 return StatusCode(500, "Error retrieving data from the database");
             }
         }
+
+        [HttpGet]
+        [Route("{categoryId}/GetItemsByCategory")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetItemsByCategory(int categoryId)
+        {
+            try
+            {
+                var products = await _productRepository.GetItemsByCategory(categoryId);
+                var productCategories = await _productRepository.GetCategories();
+                var productDtos = products.ConvertToDto(productCategories);
+
+                return Ok(productDtos);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error retrieving data from the database");
+            }
+        }
     }
 }

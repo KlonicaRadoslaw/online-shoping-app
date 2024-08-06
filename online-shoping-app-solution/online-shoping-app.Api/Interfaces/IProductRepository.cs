@@ -8,5 +8,6 @@ namespace online_shoping_app.Api.Interfaces
         Task<IEnumerable<ProductCategory>> GetCategories();
         Task<Product> GetProductById(int id);
         Task<ProductCategory> GetCategoryById(int id);
+        Task<IEnumerable<Product>> GetItemsByCategory(int id);
     }
 }
