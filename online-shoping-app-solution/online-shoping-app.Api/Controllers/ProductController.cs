@@ -22,13 +22,12 @@ namespace online_shoping_app.Api.Controllers
             try
             {
                 var products = await _productRepository.GetItems();
-                var productCategories = await _productRepository.GetCategories();
 
-                if(products == null || productCategories == null) 
+                if(products == null) 
                     return NotFound();
                 else
                 {
-                    var productDtos = products.ConvertToDto(productCategories);
+                    var productDtos = products.ConvertToDto();
 
                     return Ok(productDtos);
                 }
@@ -51,9 +50,7 @@ namespace online_shoping_app.Api.Controllers
                     return NotFound();
                 else
                 {
-                    var productCategory = await _productRepository.GetCategoryById(product.CategoryId);
-
-                    var productDto = product.ConvertToDto(productCategory);
+                    var productDto = product.ConvertToDto();
 
                     return Ok(productDto);
                 }
@@ -89,8 +86,7 @@ namespace online_shoping_app.Api.Controllers
             try
             {
                 var products = await _productRepository.GetItemsByCategory(categoryId);
-                var productCategories = await _productRepository.GetCategories();
-                var productDtos = products.ConvertToDto(productCategories);
+                var productDtos = products.ConvertToDto();
 
                 return Ok(productDtos);
             }
